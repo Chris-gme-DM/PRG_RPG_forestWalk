@@ -49,7 +49,7 @@ public class BaseCharacterController : MonoBehaviour
         {
             isSlowed = true;
         }
-        if(col.CompareTag("TallGrass"))
+        else if(col.CompareTag("TallGrass"))
         {
             enemyEncounterEnabled = true;
         }
