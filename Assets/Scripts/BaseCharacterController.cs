@@ -9,8 +9,10 @@ public class BaseCharacterController : MonoBehaviour
     [Range(0.5f, 4f)][SerializeField] private float movementSpeed;
     [Range(0, 10f)][SerializeField] float movementAccelaration;
     [Range(0,1f)][SerializeField] private float slowFactor;
+    [Range(0, 1f)][SerializeField] private float enemyEncounter;
     private Rigidbody2D rb;
     private bool isSlowed;
+    private bool enemyEncounterEnabled;
 
     private void Start()
     {
@@ -25,9 +27,21 @@ public class BaseCharacterController : MonoBehaviour
     {  
         var actualMovementSpeed = isSlowed ? movementSpeed * slowFactor : movementSpeed;
         // Transform to move the player
-        transform.Translate(new Vector3(movementInput.x, movementInput.y, 0) * Time.deltaTime * actualMovementSpeed);
+        transform.Translate(new Vector2(movementInput.x, movementInput.y) * Time.deltaTime * actualMovementSpeed);
         // Will add Force because Physics to smooth out movement
-        rb.AddForce(new Vector3(movementInput.x, movementInput.y, 0) * Time.deltaTime * actualMovementSpeed * movementAccelaration, ForceMode2D.Force);
+        rb.AddForce(new Vector2(movementInput.x, movementInput.y) * Time.deltaTime * actualMovementSpeed * movementAccelaration, ForceMode2D.Force);
+
+        //RandomEncounter Check
+        if (enemyEncounterEnabled)
+        {
+            float randomValue = Random.Range(0f, 1f);
+            if (randomValue < enemyEncounter * Time.deltaTime)
+            {
+                // Trigger enemy encounter
+                Debug.Log("Enemy Encounter Triggered!");
+                enemyEncounterEnabled = false; // Disable further encounters until re-enabled
+            }
+        }
     }
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -35,6 +49,11 @@ public class BaseCharacterController : MonoBehaviour
         {
             isSlowed = true;
         }
+        if(col.CompareTag("TallGrass"))
+        {
+            enemyEncounterEnabled = true;
+        }
+        
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
