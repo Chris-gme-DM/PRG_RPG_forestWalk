@@ -43,17 +43,21 @@ public class BaseCharacterController : MonoBehaviour
             }
         }
     }
-    private void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (col.CompareTag("Swamp"))
-        {
-            isSlowed = true;
-        }
-        else if(col.CompareTag("TallGrass"))
+        if(collision.CompareTag("TallGrass"))
         {
             enemyEncounterEnabled = true;
         }
         
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Swamp"))
+        {
+            isSlowed = true;
+        }
+
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
