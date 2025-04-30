@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEngine.InputSystem.InputAction;
 
 public class BaseCharacterController : MonoBehaviour
 {
     private Vector2 movementInput;
-    [Range(0.5f, 4f)][SerializeField] private float movementSpeed;
+    [Range(0.5f, 10f)][SerializeField] private float movementSpeed;
     [Range(0, 10f)][SerializeField] float movementAccelaration;
     [Range(0,1f)][SerializeField] private float slowFactor;
     [Range(0, 1f)][SerializeField] private float enemyEncounter;
@@ -49,7 +50,6 @@ public class BaseCharacterController : MonoBehaviour
         {
             enemyEncounterEnabled = true;
         }
-        
     }
     private void OnTriggerStay2D(Collider2D collision)
     {

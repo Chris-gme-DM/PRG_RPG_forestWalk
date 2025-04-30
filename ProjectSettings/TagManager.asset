@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Swamp
   - TallGrass
+  - Travel
   layers:
   - Default
   - TransparentFX
