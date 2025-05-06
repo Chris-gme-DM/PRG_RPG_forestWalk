@@ -33969,7 +33969,6 @@ MonoBehaviour:
   movementSpeed: 2
   movementAccelaration: 0
   slowFactor: 0.15
-  enemyEncounter: 0.25
 --- !u!50 &469813442
 Rigidbody2D:
   serializedVersion: 4
@@ -39977,6 +39976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a618610c973254cb36e23f81017ee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chanceToEncounter: 0.1
 --- !u!114 &986758067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39990,9 +39990,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ExperiencePoints: 0
-  Level: 0
-  Health: 0
-  MaxHealth: 0
+  Level: 1
+  Health: 100
+  MaxHealth: 100
 --- !u!4 &986758068
 Transform:
   m_ObjectHideFlags: 0

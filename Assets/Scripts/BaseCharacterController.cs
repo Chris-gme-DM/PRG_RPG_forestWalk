@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 using static UnityEngine.InputSystem.InputAction;
 
 public class BaseCharacterController : MonoBehaviour
@@ -10,15 +11,26 @@ public class BaseCharacterController : MonoBehaviour
     [Range(0.5f, 10f)][SerializeField] private float movementSpeed;
     [Range(0, 10f)][SerializeField] float movementAccelaration;
     [Range(0,1f)][SerializeField] private float slowFactor;
-    [Range(0, 1f)][SerializeField] private float enemyEncounter;
     private Rigidbody2D rb;
     private bool isSlowed;
-    private bool enemyEncounterEnabled;
+    private bool isPlayerInEncounter;
+    private Vector3Int currentPosition, lastEncounterPosition;
+    public Tilemap tilemap
+    {
+        get
+        {
+            if (m_tilemap == null) m_tilemap = FindObjectOfType<Tilemap>();
+            return m_tilemap;
+        }
+    }
+    private Tilemap m_tilemap;
+
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         isSlowed = false;
+        isPlayerInEncounter = false;
     }
     public void Movement(CallbackContext ctx) 
     {
@@ -26,36 +38,29 @@ public class BaseCharacterController : MonoBehaviour
     }
     private void FixedUpdate()
     {  
+        if(isPlayerInEncounter) return;
+        
         var actualMovementSpeed = isSlowed ? movementSpeed * slowFactor : movementSpeed;
         // Transform to move the player
         transform.Translate(new Vector2(movementInput.x, movementInput.y) * Time.deltaTime * actualMovementSpeed);
+        currentPosition = tilemap.WorldToCell(transform.position);
         // Will add Force because Physics to smooth out movement
         rb.AddForce(new Vector2(movementInput.x, movementInput.y) * Time.deltaTime * actualMovementSpeed * movementAccelaration, ForceMode2D.Force);
 
-        //RandomEncounter Check
-        if (enemyEncounterEnabled)
-        {
-            float randomValue = Random.Range(0f, 1f);
-            if (randomValue < enemyEncounter * Time.deltaTime)
-            {
-                // Trigger enemy encounter
-                Debug.Log("Enemy Encounter Triggered!");
-                enemyEncounterEnabled = false; // Disable further encounters until re-enabled
-            }
-        }
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.CompareTag("TallGrass"))
-        {
-            enemyEncounterEnabled = true;
-        }
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Swamp"))
+        if (collision.gameObject.CompareTag("Swamp"))
         {
             isSlowed = true;
+        }
+        else if(collision.gameObject.CompareTag("TallGrass"))
+        {
+            if (currentPosition != lastEncounterPosition)
+            {
+                lastEncounterPosition = currentPosition;
+                FightManager.Instance.CheckForEncounter();
+            }
         }
 
     }
@@ -65,9 +70,5 @@ public class BaseCharacterController : MonoBehaviour
         {
             isSlowed = false;
         }
-    }
-    private void CheckforEncounter()
-    {
-        FightManager.Instance.CheckForEncounter();
     }
 }
