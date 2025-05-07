@@ -59,7 +59,7 @@ public class BaseCharacterController : MonoBehaviour
             if (currentPosition != lastEncounterPosition)
             {
                 lastEncounterPosition = currentPosition;
-                FightManager.Instance.CheckForEncounter();
+                isPlayerInEncounter = FightManager.Instance.CheckForEncounter();
             }
         }
 
