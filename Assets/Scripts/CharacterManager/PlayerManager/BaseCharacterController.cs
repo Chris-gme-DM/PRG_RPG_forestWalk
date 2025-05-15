@@ -12,10 +12,11 @@ public class BaseCharacterController : MonoBehaviour
     [Range(0, 10f)][SerializeField] float movementAccelaration;
     [Range(0,1f)][SerializeField] private float slowFactor;
     private Rigidbody2D rb;
-    private bool isSlowed;
-    private bool isPlayerInEncounter;
+    public bool isSlowed ; 
+    public bool isPlayerPaused;
+    private bool isFightActive;
     private Vector3Int currentPosition, lastEncounterPosition;
-    public Tilemap tilemap
+    public Tilemap Tilemap
     {
         get
         {
@@ -30,7 +31,8 @@ public class BaseCharacterController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         isSlowed = false;
-        isPlayerInEncounter = false;
+        isFightActive = false;
+        isPlayerPaused = false;
     }
     public void Movement(CallbackContext ctx) 
     {
@@ -38,12 +40,12 @@ public class BaseCharacterController : MonoBehaviour
     }
     private void FixedUpdate()
     {  
-        if(isPlayerInEncounter) return;
+        if(isFightActive) return;
         
         var actualMovementSpeed = isSlowed ? movementSpeed * slowFactor : movementSpeed;
         // Transform to move the player
         transform.Translate(new Vector2(movementInput.x, movementInput.y) * Time.deltaTime * actualMovementSpeed);
-        currentPosition = tilemap.WorldToCell(transform.position);
+        currentPosition = Tilemap.WorldToCell(transform.position);
         // Will add Force because Physics to smooth out movement
         rb.AddForce(new Vector2(movementInput.x, movementInput.y) * Time.deltaTime * actualMovementSpeed * movementAccelaration, ForceMode2D.Force);
 
@@ -59,7 +61,7 @@ public class BaseCharacterController : MonoBehaviour
             if (currentPosition != lastEncounterPosition)
             {
                 lastEncounterPosition = currentPosition;
-                isPlayerInEncounter = FightManager.Instance.CheckForEncounter();
+                PausePlayer(FightManager.Instance.CheckForEncounter());
             }
         }
 
@@ -70,5 +72,9 @@ public class BaseCharacterController : MonoBehaviour
         {
             isSlowed = false;
         }
+    }
+    public void PausePlayer(bool isPaused)
+    {
+        isPlayerPaused = true;
     }
 }
