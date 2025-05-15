@@ -74,10 +74,10 @@ public class FightManager : MonoBehaviour
     private void LoadCharacter()
     {
         //get CharacterStats
-        foreach (var character in CharacterStatsManager.Instance.Characters)
+        foreach (var character in CharacterStatsManager.Instance.characterData)
         {
-            character.Value.LoadPlayerPrefab(character.Key);
-            SpawnManager.instance.SpawnBattleCharacter(character.Value, character.Key);
+            character.LoadPlayerPrefab(name);
+            SpawnManager.instance.SpawnBattleEntity(character);
         }
         //Load CharacterSprite
         //Load CharacterOptions

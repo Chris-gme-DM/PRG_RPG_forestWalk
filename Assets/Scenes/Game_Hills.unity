@@ -2208,7 +2208,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 206006089}
-  - component: {fileID: 206006088}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -2216,28 +2215,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &206006088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 206006087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a2408c02dfa2c04aa5e3fe7f077985b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: 
-  Level: 0
-  CharacterClassHealth: 0
-  CharacterClassMaxHealth: 0
-  CharacterClassAttack: 0
-  CharacterClassDefense: 0
-  abilities: []
-  ExperiencePoints: 0
-  isCharacterDeath: 0
-  playerPrefab: {fileID: 0}
 --- !u!4 &206006089
 Transform:
   m_ObjectHideFlags: 0
@@ -40183,8 +40160,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f172346c8a3fec1429ce499be72880b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleCharacterSpawnPoint: {fileID: 1428141169}
-  spawnableBattleCharacter: {fileID: 0}
+  battleEntitySpawnPoint: {fileID: 0}
+  spawnableBattleEntity: {fileID: 0}
 --- !u!1 &1053905504
 GameObject:
   m_ObjectHideFlags: 0

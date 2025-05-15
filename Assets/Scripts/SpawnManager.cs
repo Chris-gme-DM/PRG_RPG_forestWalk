@@ -5,8 +5,8 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public static SpawnManager instance;
-    [SerializeField] Transform battleCharacterSpawnPoint;
-    [SerializeField] GameObject spawnableBattleCharacter;
+    [SerializeField] Transform battleEntitySpawnPoint;
+    [SerializeField] GameObject spawnableBattleEntity;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,11 +20,8 @@ public class SpawnManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void SpawnBattleCharacter(BattleCharacter identifier, string name)
+    public void SpawnBattleEntity(BattleEntity identifier)
     {
-        foreach (var character in spawnableBattleCharacter.GetComponentsInChildren<BattleCharacter>()) 
-        {
-            Instantiate(spawnableBattleCharacter, battleCharacterSpawnPoint);
-        }
+        var go = Instantiate(identifier.spawnableBattleEntity) as GameObject;
     }
 }
