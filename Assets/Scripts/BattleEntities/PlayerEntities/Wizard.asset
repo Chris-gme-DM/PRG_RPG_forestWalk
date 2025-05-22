@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Warrior
+  m_Name: Wizard
   m_EditorClassIdentifier: Assembly-CSharp::BattleEntityData
   spawnablePrefab: {fileID: 0}
   type: 0
-  entityName: Warrior
-  baseMaxHealth: 100
-  baseAttack: 6
-  baseDefense: 10
+  entityName: 
+  baseMaxHealth: 80
+  baseAttack: 10
+  baseDefense: 5
   isCharacterDeath: 0
   abilities:
-  - {fileID: 11400000, guid: eb8cd6cd7732d9e429205aaaf643d32c, type: 2}
-  - {fileID: 11400000, guid: b5a3647c3e24ed54cbec1a17f9e08700, type: 2}
-  - {fileID: 11400000, guid: 6b02a4b49ee7c4241b156c584b6a28c4, type: 2}
-  - {fileID: 11400000, guid: 987395c85c3a68f48ad27fbb91c98b29, type: 2}
+  - {fileID: 11400000, guid: d354f6cbdcd03444ea0463776633e571, type: 2}
+  - {fileID: 11400000, guid: 959a00abe79720545a2b927d8ded8c84, type: 2}
+  - {fileID: 11400000, guid: 9aa613b1aabb7ae4ca61bd9eb653d026, type: 2}
+  - {fileID: 11400000, guid: 9b7e1eab7efc072458a96f3c739c26c0, type: 2}

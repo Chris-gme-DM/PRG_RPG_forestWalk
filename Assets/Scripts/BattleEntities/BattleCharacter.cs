@@ -1,54 +1,72 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BattleCharacter : MonoBehaviour
 {
     // PlayerName to identify instance of BattleCharacter
-    public string Name;
-    public int Level;
-    public int CharacterClassHealth;
-    public int CharacterClassMaxHealth;
-    public int CharacterClassAttack;
-    public int CharacterClassDefense;
-    public List<string> abilities;
-    public int ExperiencePoints;
-    public float WeaponAttackMultiplier { get; set; }
-    public bool isCharacterDeath;
-    public GameObject playerPrefab;
-    
+    [HideInInspector] public string PlayerName;
+    public int ExperiencePoints { get; private set; }
+    [SerializeField] public int Level { get; private set; }
+    public Health health { get; private set; }    
+    public bool isCharacterDeath { get; private set; }
 
-    public virtual void LoadPlayerPrefab(string playerName) 
+    public virtual void SetExp(int experience)
     {
-        Name = playerName;
-    }
-    public virtual void Attack(BattleCharacter target, int attack) { CharacterClassAttack *= Level; }
-    public virtual void Defense(BattleCharacter target, int defense) { CharacterClassDefense *= Level; }
-    public virtual void UseAbility(BattleCharacter target, string abilityName) { }
-    public virtual void UseItem(string itemName) { }
-    public virtual void GetDamage(int damage) 
-    { 
-        CharacterClassHealth -= damage; 
-        if (CharacterClassHealth == 0) { Death(); }
-    }
-    public virtual void Heal(int healAmount)
-    {
-        CharacterClassHealth += healAmount;
-    }
-    public virtual void Death() { }
-    public virtual void GainExperiencePoints(int exp)
-    {
-        ExperiencePoints += exp;
-        LevelUp();
-    }
-    public virtual bool LevelUp() 
-    { 
-        if(ExperiencePoints > 100 * Level)
+        var experienceToGain = experience;
+        Level = 1; // Reset level to 1 before calculating
+
+        while (experienceToGain > 0)
         {
-            ExperiencePoints -= 100 * Level;
-            Level++;
-            return true;
+            var requiredToLevelUp = 100 * Level;
+
+            if (requiredToLevelUp < experienceToGain)
+            {
+                Level++;
+                experienceToGain -= requiredToLevelUp;
+            }
+            else
+            {
+                ExperiencePoints = experienceToGain;
+                experienceToGain = 0;
+            }
         }
-        return false; 
     }
+
+    public static int GetExperienceRequirement(int level)
+    {
+        var expReq = 0;
+
+        for (int i = 1; i <= level; i++)
+        {
+            expReq += 100 * i;
+        }
+
+        return expReq;
+    }
+
+    [Header("VISUALS")]
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text hpText;
+    [SerializeField] private TMP_Text maxHpText;
+
+
+    public virtual void SetHP()
+    {
+        SetHP(health);
+    }
+
+    public virtual void SetHP(Health health)
+    {
+        this.health = health;
+    }
+
+    public void SetVisuals()
+    {
+        nameText.text = PlayerName + " Level: " + Level;
+        maxHpText.text = health.maxHealth.ToString();
+        hpText.text = health.health.ToString();
+    }
+
 }

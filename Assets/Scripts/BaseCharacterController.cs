@@ -16,6 +16,7 @@ public class BaseCharacterController : MonoBehaviour
     public bool isPlayerPaused;
     private bool isFightActive;
     private Vector3Int currentPosition, lastEncounterPosition;
+    private CharacterAnimationManage cam;
     public Tilemap Tilemap
     {
         get
@@ -33,10 +34,15 @@ public class BaseCharacterController : MonoBehaviour
         isSlowed = false;
         isFightActive = false;
         isPlayerPaused = false;
+        cam = GetComponent<CharacterAnimationManage>();
     }
     public void Movement(CallbackContext ctx) 
     {
         movementInput = ctx.ReadValue<Vector2>();
+        if (!isPlayerPaused)
+            cam.SetAnimatorValues(movementInput.x, movementInput.y); //Set animator values to the input values
+        else
+            cam.SetAnimatorValues(0, 0); //Set animator values to 0 if the player is paused
     }
     private void FixedUpdate()
     {  

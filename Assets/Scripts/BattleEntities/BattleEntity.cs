@@ -3,47 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewBattleEntity", menuName = "Battle/BattleEntity")]
-public class BattleEntity : ScriptableObject
+public class BattleEntityData : ScriptableObject
 {
-    public GameObject spawnableBattleEntity;
-    public BattleEntity type;
+    public GameObject spawnablePrefab;
+    public BattleEntityType type;
     //Name of Prefab
-    public string Name;
-    //Level, adjustable
-    public int Level;
-    //Current Health of entity
-    public int Health;
+    public string entityName;
     //Maximum Health of entity
-    public int MaxHealth;
+    public int baseMaxHealth;
     //Attack characteristic of Entity, equipment influence
-    public int Attack;
+    public int baseAttack;
     //Defense characteristic of Entity, equipment influence
-    public int Defense;
-    //ExperiencePoints an entity currently possess
-    public int ExperiencePoints;
+    public int baseDefense;
     //Multiplier depends on weapon
     public float WeaponAttackMultiplier { get; set; }
     //Check if Character health is >= 0
     public bool isCharacterDeath;
-    public List <AbilityData> abilities;
-
-    public void LoadPlayerPrefab(string name)
+    public List<AbilityData> abilities;
+}
+public struct BattleEntity
+{
+    BattleEntityType type;
+    //Constructor to initialize the BattleEntity with its data and instance
+    public BattleEntity(BattleEntityType type)
     {
+        this.type = type;
+    }
+}
 
-    }
-    public struct BattleEntities
-    {
-        BattleEntityType type;
-        //Constructo to initialize the BattleEntity with its data and instance
-        public void BattleEntity(BattleEntityType type)
-        {
-            this.type = type;
-        }
-    }
-
-    public enum BattleEntityType
-    {
-        Player,
-        Enemy,
-    }
+public enum BattleEntityType
+{
+    None,
+    Player,
+    Enemy,
 }
